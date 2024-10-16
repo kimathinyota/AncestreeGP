@@ -168,13 +168,14 @@ class AncestoryModel:
             return parents.Father_ID
         return fill
  
-    def diseases(self, patient_id, fill_empty=None):
+    def diseases(self, patient_id, fill_empty=[]):
         patient_disease = self.data['patient_disease']['data']
         if patient_id is None:
             return self.fetch_data('disease').index.tolist()
         if 'Patient_ID' in patient_disease.columns and 'Disease_ID' in patient_disease.columns:
-            ds= patient_disease.loc[patient_disease.Patient_ID==patient_id, 'Disease_ID'].tolist()
-            if fill_empty is not None and (len(ds)==0):
+            ds = patient_disease.loc[patient_disease.Patient_ID==patient_id, 'Disease_ID'].tolist()
+            ds.sort()
+            if (len(ds)==0):
                 return fill_empty
             return ds
         else:
